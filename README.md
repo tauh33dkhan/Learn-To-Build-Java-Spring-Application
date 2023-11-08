@@ -61,8 +61,8 @@ In this example, the class MySpringBootApplication is marked with the @SpringBoo
 
 ### Creating a Hello World Spring Application
 
-Step 1: Set up the Project
-Use Spring Initializer to set up the project with Maven. Visit Spring Initializer(https://start.spring.io/) and create a new project with the following options:
+Step 1: Set up the Project.
+ise Spring Initializer to set up the project with Maven. Visit Spring Initializer(https://start.spring.io/) and create a new project with the following options:
 ```
 Project: Maven
 Language: Java
