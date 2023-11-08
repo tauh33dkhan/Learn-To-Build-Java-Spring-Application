@@ -2,19 +2,19 @@
 
 ## Key Concepts:
 
-**Spring Boot:** 
+### Spring Boot:
 Spring Boot is like a special tool that makes it much easier to create web applications using the Spring Framework. Think of it as a helper that takes care of many boring and repetitive tasks, so you can focus on writing the actual code for your application.
 
-**Spring Initializr:**
+### Spring Initializr:
 It's a web-based tool that helps you generate a Spring Boot project with the desired dependencies and configurations https://start.spring.io/.
 
-**Annotations:**
+###  Annotations:
 annotations are used to simplify configuration and reduce the need for XML configuration files. Annotations are used to define beans, configure components, and specify request mappings, among other things.
 
-**MVC (Model-View-Controller):**
+### MVC (Model-View-Controller):
 Modern application follows the MVC architectural pattern, which separates an application into three components: Model (data), View (presentation), and Controller (request handling).
 
-**Controller:**
+### Controller:
 A controller is a Java class that handles incoming HTTP requests and returns an HTTP response. In the following example the @RestController annotation indicates that the class is a REST controller, and the @GetMapping annotation specifies the mapping of the method to a URL path.
 ```java
 // helloworldController.java
@@ -32,10 +32,10 @@ public class controller {
 }
 ```
 
-**pom.xml:**
+### pom.xml:
 The pom.xml file is a configuration file which is used to manage project dependencies, build settings, and plugins. It defines what libraries the application needs, how to build the application, and various project details like its name and version. The file plays a central role in simplifying project management and ensuring consistent builds.
 
-**Starting Point:**
+### Starting Point:
 Here's how Spring Boot determines the entry point class:
 - Spring Boot looks for a class with a public static void main(String[] args) method. This method is the starting point for any Java application. It's where the application's execution begins.
 - Spring Boot checks the presence of the @SpringBootApplication annotation on the class that contains the main method.
