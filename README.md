@@ -240,7 +240,9 @@ Now, when you access `/helloWorld?name=John`, the controller will use the hello.
 Thymeleaf `th:text` expression autoescapes the user supplied to protect against XSS attacks but if the application is using `th:utext` it will display the unescaped user supplied input, including any HTML or special characters.
 
 
-### Handling user registration
+## User registration
+
+Creating a registration functionality in a Spring web application typically involves several steps, including creating the registration form, processing user input, and storing user data. Here, I'll provide a simplified example to get started.
 
 STEP 1: Create a controller `registerControler.java` to handle request to GET `/register` endpoint.
 
@@ -284,7 +286,7 @@ STEP 2: Create `register.html` template
 </html>
 ```
 
-STEP 3: Handle registration post request using @PostMapping annonation and store the username in session for demo.
+STEP 3: Handle registration post request using @PostMapping annonation and store the username in session for demo then redirect the user to `/dashboard` using `return "redirect:/dashboard";` then handle dashboard request, first get the username value from session and display it using `dashboard.html`.
 
 ```java
 package com.learn.helloworld;
@@ -321,7 +323,6 @@ public class registerController {
     }
 }
 
-}
 ```
 
 ```java
