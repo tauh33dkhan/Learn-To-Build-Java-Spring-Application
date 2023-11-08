@@ -285,7 +285,35 @@ STEP 2: Create `register.html` template
 ```
 
 STEP 3: Handle registration post request using @PostMapping annonation and store the user details in memory for demo.
-```
 
+```java
+package com.learn.helloworld;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+@Controller
+public class registerController {
+    private Map<String, String> users = new HashMap<>();
+
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerUser(@RequestParam String username, @RequestParam String password, Model model){
+        users.put(username, password);         // For simplicity, store user data in-memory. In a real application, use a database.
+        model.addAttribute("message", "Registration successful for " + username);
+        return "registration";
+    }
+}
 ```
 
