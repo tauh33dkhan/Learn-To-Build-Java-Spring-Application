@@ -284,7 +284,7 @@ STEP 2: Create `register.html` template
 </html>
 ```
 
-STEP 3: Handle registration post request using @PostMapping annonation and store the user details in memory for demo.
+STEP 3: Handle registration post request using @PostMapping annonation and store the username in session for demo.
 
 ```java
 package com.learn.helloworld;
@@ -292,16 +292,16 @@ package com.learn.helloworld;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 public class registerController {
-    private Map<String, String> users = new HashMap<>();
 
     @GetMapping("/register")
     public String register() {
@@ -309,12 +309,26 @@ public class registerController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String username, @RequestParam String password, Model model){
-        users.put(username, password);         // For simplicity, store user data in-memory. In a real application, use a database.
-        model.addAttribute("message", "Registration successful for " + username);
-        return "registration";
+    public String registerUser(@RequestParam String username, @RequestParam String password, HttpSession session) {
+        session.setAttribute("username", username);  // storing username in ssession
+        return "redirect:/dashboard";    // redirecting user to dashboard after registration
     }
+
+    @GetMapping("/dashboard")
+    public String dashboard(HttpSession session, Model model) {
+        model.addAttribute("username", session.getAttribute("username"));    // getting user detail from session
+        return "dashboard"; 
+    }
+}
+
 }
 ```
 
-STEP 4: 
+```java
+//dashboard.html
+<html>
+    <center>
+        <h1 th:text="'Hello, ' + ${username} + '!'"></h1>
+    </center>
+</html>
+```
