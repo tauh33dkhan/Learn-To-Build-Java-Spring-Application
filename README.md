@@ -115,6 +115,8 @@ public class helloWorldController {
 Step 3: Start server
 ```bash
 $ mvn spring-boot:run
+$ curl localhost:8080/helloWorld
+hello test  
 ```
 
 
