@@ -32,7 +32,7 @@ public class controller {
 }
 ```
 
-### 🔨 pom.xml:
+### </> pom.xml:
 The pom.xml file is a configuration file which is used to manage project dependencies, build settings, and plugins. It defines what libraries the application needs, how to build the application, and various project details like its name and version. The file plays a central role in simplifying project management and ensuring consistent builds.
 
 ### 🏁 Starting Point:
