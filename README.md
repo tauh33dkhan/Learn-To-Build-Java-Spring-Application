@@ -62,7 +62,8 @@ In this example, the class MySpringBootApplication is marked with the @SpringBoo
 ### Creating a Hello World Spring Application
 
 Step 1: Set up the Project.
-ise Spring Initializer to set up the project with Maven. Visit Spring Initializer(https://start.spring.io/) and create a new project with the following options:
+
+Use Spring Initializer to set up the project with Maven. Visit Spring Initializer(https://start.spring.io/) and create a new project with the following options:
 ```
 Project: Maven
 Language: Java
@@ -83,6 +84,7 @@ $ mvn spring-boot:run
 If the application is build successfully it will start a localhost server on port 8080.
 
 Step 2: Create a Controller for our hello world application.
+
 Go to /src/main/java/com/learn and create a new java file helloWorldConroller.java. VSCode will automatically create a class declaration.
 ```java
 // helloWorldConroller.java
