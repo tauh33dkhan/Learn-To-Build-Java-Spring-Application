@@ -8,10 +8,10 @@ Spring Boot is like a special tool that makes it much easier to create web appli
 ### 📁 Spring Initializr:
 It's a web-based tool that helps you generate a Spring Boot project with the desired dependencies and configurations https://start.spring.io/.
 
-### Annotations:
+### @ Annotations:
 annotations are used to simplify configuration and reduce the need for XML configuration files. Annotations are used to define beans, configure components, and specify request mappings, among other things.
 
-### 🛢🌇🎮 MVC (Model-View-Controller):
+### 🛢👀🕹️ MVC (Model-View-Controller):
 Modern application follows the MVC architectural pattern, which separates an application into three components: Model (data), View (presentation), and Controller (request handling).
 
 ### Controller:
