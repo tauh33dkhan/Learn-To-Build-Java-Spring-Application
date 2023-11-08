@@ -14,7 +14,7 @@ annotations are used to simplify configuration and reduce the need for XML confi
 ### 🛢👀🕹️ MVC (Model-View-Controller):
 Modern application follows the MVC architectural pattern, which separates an application into three components: Model (data), View (presentation), and Controller (request handling).
 
-### Controller:
+### 🎮 Controller:
 A controller is a Java class that handles incoming HTTP requests and returns an HTTP response. In the following example the @RestController annotation indicates that the class is a REST controller, and the @GetMapping annotation specifies the mapping of the method to a URL path.
 ```java
 // helloworldController.java
