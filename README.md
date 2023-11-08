@@ -183,5 +183,56 @@ public class helloWorldController {
 }
 ```
 
+### Using view to display HTML content
+
+If you want to display the response in an HTML page instead of returning a plain string, you can modify your Spring MVC controller to return a view. You will need to create a Thymeleaf HTML template to render the content. Here's how you can do it:
+
+First, make sure you have Thymeleaf as a dependency in your project. You can add it to your pom.xml file:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+</dependency>
+```
+Create an HTML template (e.g., hello.html) in your src/main/resources/templates directory. This template will be used to render the response:
+
+```html
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello Page</title>
+</head>
+<body>
+    <h1 th:text="'Hello, ' + ${userName} + '!'"></h1>
+</body>
+</html>
+```
+
+Modify your controller to return the HTML template:
+
+```java
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+public class HelloWorldController {
+    @GetMapping("/helloWorld")
+    public String sayHello(@RequestParam(name = "name", defaultValue = "Guest") String userName, Model model) {
+        model.addAttribute("userName", userName);
+        return "hello"; // This corresponds to the "hello.html" template
+    }
+}
+```
+In this modified code:
+
+- We've changed the `@RestController` annotation to `@Controller` to indicate that this class is responsible for returning views.
+- We've added the Model parameter to the sayHello method to pass data to the view. We use model.addAttribute to pass the userName variable to the template.
+
+Now, when you access `/helloWorld?name=John`, the controller will use the hello.html template to display "Hello, John!" in an HTML page. If no "name" parameter is provided, it will default to "Hello, Guest!" in the HTML page. Thymeleaf's `th:text` attribute is used to populate the `<h1>` tag with the dynamic content.
 
 
