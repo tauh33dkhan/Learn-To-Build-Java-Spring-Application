@@ -59,7 +59,7 @@ public class MySpringBootApplication {
 In this example, the class MySpringBootApplication is marked with the @SpringBootApplication annotation, and it contains the main method. Spring Boot identifies it as the entry point for the application, and the main method initiates the Spring Boot application.
 
 
-# Creating a Hello World Spring Application
+### Creating a Hello World Spring Application
 
 Step 1: Set up the Project
 Use Spring Initializer to set up the project with Maven. Visit Spring Initializer(https://start.spring.io/) and create a new project with the following options:
