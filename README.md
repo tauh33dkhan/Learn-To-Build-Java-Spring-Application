@@ -61,7 +61,7 @@ In this example, the class MySpringBootApplication is marked with the @SpringBoo
 
 ## Creating a Hello World Spring Application
 
-Step 1: Set up the Project.
+**Step 1:** Set up the Project.
 
 Use Spring Initializer to set up the project with Maven. Visit Spring Initializer(https://start.spring.io/) and create a new project with the following options:
 ```bash
@@ -77,13 +77,13 @@ Artifact: helloworld
 Click on generate it will create a Spring Boot project with the desired dependencies and configurations.
 Unzip the downloaded project and open it in VSCode. Navigate through the files to understand the default files, why they are there and the skelaton code proivded.
 
-Step 2: Before starting to add code first check if you have created proper spring project with right dependency and java version by starting the spring application using following command
+**Step 2:** Before starting to add code first check if you have created proper spring project with right dependency and java version by starting the spring application using following command
 ```bash
 $ mvn spring-boot:run
 ```
 If the application is build successfully it will start a localhost server on port 8080.
 
-Step 2: Create a Controller for our hello world application.
+**Step 3:** Create a Controller for our hello world application.
 
 Go to /src/main/java/com/learn and create a new java file helloWorldConroller.java. VSCode will automatically create a class declaration.
 ```java
@@ -247,7 +247,7 @@ Thymeleaf `th:text` expression autoescapes the user supplied to protect against 
 
 Creating a registration functionality in a Spring web application typically involves several steps, including creating the registration form, processing user input, and storing user data. Here, I'll provide a simplified example to get started.
 
-STEP 1: Create a controller `registerControler.java` to handle request to GET `/register` endpoint.
+**STEP 1:** Create a controller `registerControler.java` to handle request to GET `/register` endpoint.
 
 ```java
 // registerController
@@ -267,7 +267,7 @@ public class registerController {
 
 ```
 
-STEP 2: Create `register.html` template
+**STEP 2:** Create `register.html` template
 ```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
@@ -289,7 +289,7 @@ STEP 2: Create `register.html` template
 </html>
 ```
 
-STEP 3: Handle registration post request using @PostMapping annonation and store the username in session for demo then redirect the user to `/dashboard` using `return "redirect:/dashboard";` then handle dashboard request, first get the username value from session and display it using `dashboard.html`.
+**STEP 3:** Handle registration post request using @PostMapping annonation and store the username in session for demo then redirect the user to `/dashboard` using `return "redirect:/dashboard";` then handle dashboard request, first get the username value from session and display it using `dashboard.html`.
 
 ```java
 package com.learn.helloworld;
