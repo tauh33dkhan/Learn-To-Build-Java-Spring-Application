@@ -1,4 +1,4 @@
-# helloWorldSpringApplication
+# Learn To Build Java Spring Application
 
 ## Key Concepts:
 
