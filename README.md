@@ -64,7 +64,7 @@ In this example, the class MySpringBootApplication is marked with the @SpringBoo
 Step 1: Set up the Project.
 
 Use Spring Initializer to set up the project with Maven. Visit Spring Initializer(https://start.spring.io/) and create a new project with the following options:
-```
+```bash
 Project: Maven
 Language: Java
 Spring Boot: 2.7.17
@@ -78,7 +78,7 @@ Click on generate it will create a Spring Boot project with the desired dependen
 Unzip the downloaded project and open it in VSCode. Navigate through the files to understand the default files, why they are there and the skelaton code proivded.
 
 Step 2: Before starting to add code first check if you have created proper spring project with right dependency and java version by starting the spring application using following command
-```
+```bash
 $ mvn spring-boot:run
 ```
 If the application is build successfully it will start a localhost server on port 8080.
@@ -161,7 +161,7 @@ Hello, test test!
 ```
 
 We can also access request parameters by using the `@RequestParam Map<String, String>` params approach. This approach allows you to collect all request parameters into a Map. Here's an example:
-```
+```java
 package com.learn.helloworld;
 
 import java.util.Map;
