@@ -58,8 +58,9 @@ public class MySpringBootApplication {
 
 In this example, the class MySpringBootApplication is marked with the @SpringBootApplication annotation, and it contains the main method. Spring Boot identifies it as the entry point for the application, and the main method initiates the Spring Boot application.
 
+<hr>
 
-### Creating a Hello World Spring Application
+## Creating a Hello World Spring Application
 
 Step 1: Set up the Project.
 
@@ -119,7 +120,9 @@ $ curl localhost:8080/helloWorld
 hello test  
 ```
 
-### Handling Request Parameter
+<hr>
+
+## Handling Request Parameter
 
 To handle request parameters coming from the user we can use the @RequestParam annotation. This annotation allows you to extract values from the request's query parameters and use them in your controller method. Here's how you can modify your helloWorldController to handle request parameters:
 
@@ -239,6 +242,7 @@ Now, when you access `/helloWorld?name=John`, the controller will use the hello.
 
 Thymeleaf `th:text` expression autoescapes the user supplied to protect against XSS attacks but if the application is using `th:utext` it will display the unescaped user supplied input, including any HTML or special characters.
 
+<hr>
 
 ## User registration
 
