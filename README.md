@@ -119,7 +119,37 @@ $ curl localhost:8080/helloWorld
 hello test  
 ```
 
+### Handling Request Parameter
+
+To handle request parameters coming from the user we can use the @RequestParam annotation. This annotation allows you to extract values from the request's query parameters and use them in your controller method. Here's how you can modify your helloWorldController to handle request parameters:
+
+```java
+package com.learn.helloworld;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
+@RestController
+public class helloWorldController {
+    @GetMapping("/helloWorld")
+    public String sayHello() {
+        return "hello test";
+    }
+    // Added mapping for sayMyName GET endpoint which takes user input from name parameter
+    @GetMapping("/sayMyName")
+    public String sayMyName(
+        @RequestParam(name = "firstName", defaultValue = "Guest") String fName,
+        @RequestParam(name = "lastName", defaultValue = "User") String lName){
+        return "Hello, " + fName + " "+ lName +"!";
+    }
+}
+```
+Let's break down the code:
+```java
+@RequestParam(name = "firstName", defaultValue = "Guest") String fName
+```
+Using @RequestParam to handle parameter coming from user here `firstName` is the GET parameter coming from user and its default value is set to Guest then we assign its value to String variable fName similarly we handle the lastName coming from user and assign it to string variable lName
 
 
