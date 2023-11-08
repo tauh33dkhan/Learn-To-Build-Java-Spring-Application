@@ -35,7 +35,7 @@ public class controller {
 ### pom.xml:
 The pom.xml file is a configuration file which is used to manage project dependencies, build settings, and plugins. It defines what libraries the application needs, how to build the application, and various project details like its name and version. The file plays a central role in simplifying project management and ensuring consistent builds.
 
-### Starting Poing:
+### Starting Point:
 
 Here's how Spring Boot determines the entry point class:
 - Spring Boot looks for a class with a public static void main(String[] args) method. This method is the starting point for any Java application. It's where the application's execution begins.
