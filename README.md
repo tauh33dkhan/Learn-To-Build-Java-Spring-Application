@@ -235,4 +235,57 @@ In this modified code:
 
 Now, when you access `/helloWorld?name=John`, the controller will use the hello.html template to display "Hello, John!" in an HTML page. If no "name" parameter is provided, it will default to "Hello, Guest!" in the HTML page. Thymeleaf's `th:text` attribute is used to populate the `<h1>` tag with the dynamic content.
 
+### Secure code review:
+
+Thymeleaf `th:text` expression autoescapes the user supplied to protect against XSS attacks but if the application is using `th:utext` it will display the unescaped user supplied input, including any HTML or special characters.
+
+
+### Handling user registration
+
+STEP 1: Create a controller `registerControler.java` to handle request to GET `/register` endpoint.
+
+```java
+// registerController
+package com.learn.helloworld;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
+@Controller
+public class registerController {
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
+}
+
+```
+
+STEP 2: Create `register.html` template
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration</title>
+</head>
+<body>
+    <h2>Registration</h2>
+    <form action="/register" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required /><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required /><br>
+        
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
+```
+
+STEP 3: Handle registration post request using @PostMapping annonation and store the user details in memory for demo.
+```
+
+```
 
