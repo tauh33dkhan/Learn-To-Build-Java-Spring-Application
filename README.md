@@ -2,7 +2,7 @@
 
 ##  🔑 Key Concepts:
 
-### ♨️ Spring Boot:
+### ♨️Spring Boot:
 Spring Boot is like a special tool that makes it much easier to create web applications using the Spring Framework. Think of it as a helper that takes care of many boring and repetitive tasks, so you can focus on writing the actual code for your application.
 
 ### Spring Initializr:
