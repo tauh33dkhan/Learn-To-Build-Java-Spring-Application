@@ -147,9 +147,41 @@ public class helloWorldController {
 }
 ```
 Let's break down the code:
+
 ```java
 @RequestParam(name = "firstName", defaultValue = "Guest") String fName
 ```
-Using @RequestParam to handle parameter coming from user here `firstName` is the GET parameter coming from user and its default value is set to Guest then we assign its value to String variable fName similarly we handle the lastName coming from user and assign it to string variable lName
+
+Using @RequestParam annonation to handle parameter coming from user. here, `firstName` is the GET parameter coming from user and its default value is set to Guest then we assign its value to String variable fName, similarly we handle the lastName parameter coming from user and assign it to string variable lName.
+
+```bash
+$ mvn spring-boot:run
+$ curl "http://localhost:8080/sayMyName?firstName=test&lastName=test"
+Hello, test test!
+```
+
+We can also access request parameters by using the `@RequestParam Map<String, String>` params approach. This approach allows you to collect all request parameters into a Map. Here's an example:
+```
+package com.learn.helloworld;
+
+import java.util.Map;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+
+@RestController
+public class helloWorldController {
+    // Added mapping for sayMyName GET endpoint which takes user input from name parameter
+    @GetMapping("/sayMyName")
+    public String sayMyName(@RequestParam Map<String, String> params){
+        String firstName = params.get("firstName");
+        String lastName = params.get("lastName");
+        return "Hello, " + firstName + " "+ lastName +"!";
+    }
+}
+```
+
 
 
