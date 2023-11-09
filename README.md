@@ -16,21 +16,20 @@ Modern application follows the MVC architectural pattern, which separates an app
 
 ### 🎮 Controller:
 A controller is a Java class that handles incoming HTTP requests and returns an HTTP response. In the following example the @RestController annotation indicates that the class is a REST controller, and the @GetMapping annotation specifies the mapping of the method to a URL path.
-```java
-// helloworldController.java
-package com.example.demo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+### Entity Class:
+An entity class is a Java class that corresponds to a database table. It is annotated with @Entity and defines fields that map to columns in a particular table. An entity class is used in Java Persistence API (JPA) to represent and interact with database tables, and it typically represents a specific type of data within your application.
 
-@RestController
-public class controller {
-    @GetMapping("/") 
-    String return1(){ 
-        return "Hello World"; 
-    } 
-}
-```
+### JPARepository:
+
+JpaRepository is an interface provided by Spring Data JPA, that simplifies database access in Spring applications by offering a set of standard CRUD (Create, Read, Update, Delete) operations for working with JPA (Java Persistence API) entities.
+
+Here are some key features and benefits of using JpaRepository:
+**Standard CRUD Operations:** JpaRepository provides methods like save, findAll, findById, delete, and more, which allow you to perform common database operations without writing SQL queries. These methods are type-safe and automatically generate SQL queries based on method names.
+
+**Custom Query Support:** In addition to standard CRUD methods, you can define custom query methods in your repository interfaces, allowing you to perform more complex database operations. You can annotate these methods with @Query to define JPQL (Java Persistence Query Language) queries or native SQL queries if needed.
+
+**Pagination and Sorting:** JpaRepository supports pagination and sorting of query results, making it easy to retrieve a subset of data or sort results based on specific criteria.
 
 ### </> pom.xml:
 The pom.xml file is a configuration file which is used to manage project dependencies, build settings, and plugins. It defines what libraries the application needs, how to build the application, and various project details like its name and version. The file plays a central role in simplifying project management and ensuring consistent builds.
@@ -335,4 +334,157 @@ public class registerController {
         <h1 th:text="'Hello, ' + ${username} + '!'"></h1>
     </center>
 </html>
+```
+
+<hr>
+
+## Store user registration data in database
+
+For this example, I'll use the H2 in-memory database and Spring Data JPA for simplicity. You can replace H2 with a production database like MySQL, PostgreSQL, or others when deploying your application.
+
+### Step 1: Add Dependencies to `pom.xml`
+
+In your pom.xml, include dependencies for Spring Boot Data JPA and a database driver. For this example, we'll use H2 as the embedded database:
+
+```xml
+<dependencies>
+    <!-- Spring Boot Data JPA -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <!-- H2 Database (for demo purposes) -->
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+    </dependency>
+    <!-- Other dependencies -->
+</dependencies>
+```
+
+### STEP 2: Configure Database Properties
+
+In your `application.properties` file, configure your database properties. Below is an example of H2 database configuration. For a production application, you'd replace these settings with your actual database details:
+
+```bash
+# DataSource settings
+spring.datasource.url=jdbc:h2:mem:helloworlddb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=helloworlddb
+spring.datasource.password=helloworlddb
+
+# H2 Console
+spring.h2.console.enabled=true
+```
+
+### STEP 3:  Create an Entity Class
+
+Create an entity class representing the user registration data. Annotate it with @Entity, and define fields for user data:
+
+```java
+package com.learn.helloworld;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String username;
+    private String email;
+    private String password;
+
+    //Getters and setters
+    public Long getId() {
+        return id;
+    }
+    
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+}
+
+```
+
+### STEP 4: Create a Repository Interface
+
+Create a repository interface by extending JpaRepository. This interface provides CRUD (Create, Read, Update, Delete) operations for your `User` entity:
+
+```java
+package com.learn.helloworld;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long>{ // interface for User entitiy
+    // Additional custom queries can be added here if needed
+}
+```
+
+### STEP 5: Modify the Registration Controller
+
+Modify your registration controller to use the repository to save user data to the database:
+```java
+package com.learn.helloworld;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+public class registerController {
+
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, HttpSession session) {
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(password);
+        session.setAttribute("username", username);
+        return "redirect:/dashboard";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard(HttpSession session, Model model) {
+        model.addAttribute("username", session.getAttribute("username"));
+        return "dashboard";
+    }
+}
 ```
