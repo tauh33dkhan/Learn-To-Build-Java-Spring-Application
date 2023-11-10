@@ -161,6 +161,9 @@ Artifact: helloworld
 Click on generate it will create a Spring Boot project with the desired dependencies and configurations.
 Unzip the downloaded project and open it in VSCode. Navigate through the files to understand the default files, why they are there and the skelaton code proivded.
 
+![image](https://github.com/tauh33dkhan/Learn-To-Build-Java-Spring-Application/assets/43419559/8637ef0d-3951-4c7f-b506-61e6f39a4ee2)
+
+
 **Step 2:** Before starting to add code first check if you have created proper spring project with right dependency and java version by starting the spring application using following command.
 
 ```bash
@@ -201,13 +204,14 @@ public class helloWorldController {
 }
 ```
 
-**Step 4:** Start server and make request to `/helloworld` endpoint to check our helloworld application is working.
+**Step 4:** Start server and make request to `/helloWorld` endpoint to check our helloworld application is working.
 
 ```bash
 $ mvn spring-boot:run
-$ curl localhost:8080/helloWorld
-hello world  
 ```
+
+![image](https://github.com/tauh33dkhan/Learn-To-Build-Java-Spring-Application/assets/43419559/39265c78-bb7d-452f-8e37-dc4e61dfcefd)
+
 
 <hr>
 
@@ -254,6 +258,8 @@ $ mvn spring-boot:run
 $ curl "http://localhost:8080/sayMyName?firstName=test&lastName=test"
 Hello, test test!
 ```
+
+![image](https://github.com/tauh33dkhan/Learn-To-Build-Java-Spring-Application/assets/43419559/bc923b18-d70b-40ef-bea4-174ca6a9fc97)
 
 We can also access request parameters by using the `@RequestParam Map<String, String>` params approach. This approach allows you to collect all request parameters into a Map. Here's an example:
 
@@ -302,7 +308,7 @@ Create an HTML template (e.g., hello.html) in your `src/main/resources/templates
     <title>Hello Page</title>
 </head>
 <body>
-    <h1 th:text="'Hello, ' + ${userName} + '!'"></h1>
+    <h1 th:text="'Hello, ' + ${username} + '!'"></h1>
 </body>
 </html>
 ```
@@ -319,8 +325,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HelloWorldController {
     @GetMapping("/helloWorld")
-    public String sayHello(@RequestParam(name = "name", defaultValue = "Guest") String userName, Model model) {
-        model.addAttribute("userName", userName);
+    public String sayHello(@RequestParam(name = "username", defaultValue = "Guest") String username, Model model) {
+        model.addAttribute("username", username);
         return "hello"; // This corresponds to the "hello.html" template
     }
 }
@@ -328,9 +334,12 @@ public class HelloWorldController {
 In this modified code:
 
 - We've changed the `@RestController` annotation to `@Controller` to indicate that this class is responsible for returning views.
-- We've added the Model parameter to the `sayHello` method to pass data to the view. We use `model.addAttribute` to pass the `userName` variable to the template.
+- We've added the Model parameter to the `sayHello` method to pass data to the view. We use `model.addAttribute` to pass the `username` variable to the template.
 
-Now, when you access `/helloWorld?name=John`, the controller will use the `hello.html` template to display "Hello, John!" in an HTML page. If no "name" parameter is provided, it will default to "Hello, Guest!" in the HTML page. Thymeleaf's `th:text` attribute is used to populate the `<h1>` tag with the dynamic content.
+Now, when you access `/helloWorld?username=John`, the controller will use the `hello.html` template to display "Hello, John!" in an HTML page. If no "name" parameter is provided, it will default to "Hello, Guest!" in the HTML page. Thymeleaf's `th:text` attribute is used to populate the `<h1>` tag with the dynamic content.
+
+![image](https://github.com/tauh33dkhan/Learn-To-Build-Java-Spring-Application/assets/43419559/705da491-a7c3-47e3-a6a2-eb07e329aa64)
+
 
 ### Secure code review:
 
