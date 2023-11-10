@@ -99,6 +99,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // You can add custom query methods here if needed
     User findByUsername(String username);
     // Additional query methods based on your requirements
+    @Query("SELECT u FROM User u WHERE u.email = :email AND u.user = :password")
+    User findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 }
 ```
 
@@ -110,6 +112,7 @@ Here are some key features and benefits of using JpaRepository:
 **Pagination and Sorting:** JpaRepository supports pagination and sorting of query results, making it easy to retrieve a subset of data or sort results based on specific criteria.
 
 ### </> pom.xml:
+
 The pom.xml file is a configuration file which is used to manage project dependencies, build settings, and plugins. It defines what libraries the application needs, how to build the application, and various project details like its name and version. The file plays a central role in simplifying project management and ensuring consistent builds.
 
 ### 🏁 Starting Point:
@@ -119,6 +122,7 @@ Here's how Spring Boot determines the entry point class:
 - Once Spring Boot finds the class with the @SpringBootApplication annotation and a main method, it runs the application by invoking the main method in that class.
 
 Here's an example of a typical Spring Boot entry point class:
+
 ```java
 package com.example.demo;
 import org.springframework.boot.SpringApplication;
@@ -141,6 +145,7 @@ In this example, the class MySpringBootApplication is marked with the @SpringBoo
 **Step 1:** Set up the Project.
 
 Use Spring Initializer to set up the project with Maven. Visit Spring Initializer(https://start.spring.io/) and create a new project with the following options:
+
 ```bash
 Project: Maven
 Language: Java
@@ -151,18 +156,22 @@ Dependencies: Spring Web
 Group: com.learn
 Artifact: helloworld
 ```
+
 Click on generate it will create a Spring Boot project with the desired dependencies and configurations.
 Unzip the downloaded project and open it in VSCode. Navigate through the files to understand the default files, why they are there and the skelaton code proivded.
 
-**Step 2:** Before starting to add code first check if you have created proper spring project with right dependency and java version by starting the spring application using following command
+**Step 2:** Before starting to add code first check if you have created proper spring project with right dependency and java version by starting the spring application using following command.
+
 ```bash
 $ mvn spring-boot:run
 ```
+
 If the application is build successfully it will start a localhost server on port 8080.
 
 **Step 3:** Create a Controller for our hello world application.
 
 Go to /src/main/java/com/learn and create a new java file helloWorldConroller.java. VSCode will automatically create a class declaration.
+
 ```java
 // helloWorldConroller.java
 package com.learn.helloworld;
@@ -173,6 +182,7 @@ public class helloWorldController {
 ```
 
 Now we need to add code to use this class as a controller and display message `hello world` when someone visit our website. to do this we will add @RestController annonation before our class defination and use @GetMapping annoation to handle request coming for specific path.
+
 ```java
 package com.learn.helloworld;
 
@@ -190,6 +200,7 @@ public class helloWorldController {
 ```
 
 **Step 4:** Start server
+
 ```bash
 $ mvn spring-boot:run
 $ curl localhost:8080/helloWorld
@@ -240,6 +251,7 @@ Hello, test test!
 ```
 
 We can also access request parameters by using the `@RequestParam Map<String, String>` params approach. This approach allows you to collect all request parameters into a Map. Here's an example:
+
 ```java
 package com.learn.helloworld;
 
@@ -344,6 +356,7 @@ public class registerController {
 ```
 
 **STEP 2:** Create `register.html` template
+
 ```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
