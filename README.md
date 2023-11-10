@@ -1,7 +1,7 @@
 # Learn To Build Java Spring Application
 
 ##  🔑 Key Concepts:
-
+    
 ### 🛠️ Spring Boot:
 Spring Boot is like a special tool that makes it much easier to create web applications using the Spring Framework. Think of it as a helper that takes care of many boring and repetitive tasks, so you can focus on writing the actual code for your application.
 
@@ -263,7 +263,6 @@ public class registerController {
         return "register";
     }
 }
-
 ```
 
 **STEP 2:** Create `register.html` template
@@ -449,14 +448,11 @@ public interface UserRepository extends JpaRepository<User, Long>{ // interface 
 
 Modify your registration controller to use the repository to save user data to the database:
 ```java
+// registerController
 package com.learn.helloworld;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
-
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -465,26 +461,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class registerController {
-
+    @Autowired
+    private UserRepository userRepository;    
+    
     @GetMapping("/register")
     public String register() {
         return "register";
     }
-
+    // @Transactional
     @PostMapping("/register")
-    public String registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, HttpSession session) {
+    public String registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
         User user = new User();
-        user.setUsername(username);
+        User user1 = userRepository.findByUsername(username); // Get user details from database to avoid duplicate registration
+        if (user1 != null){    // Check if the user with same username already registered
+            return "redirect:/register?msg=User Already Registered";
+        } 
+        user.setUsername(username);    // Set user supplied details to user
         user.setEmail(email);
         user.setPassword(password);
-        session.setAttribute("username", username);
+        try {
+            userRepository.save(user);      // Save user details
+        } catch (Error e){    // print exception in console
+            System.out.println(e);    
+            return "redirect:/register?msg=An error occured while registering user";  
+        }
+        session.setAttribute("username", username);    // set username in session
         return "redirect:/dashboard";
-    }
-
-    @GetMapping("/dashboard")
-    public String dashboard(HttpSession session, Model model) {
-        model.addAttribute("username", session.getAttribute("username"));
-        return "dashboard";
     }
 }
 ```
