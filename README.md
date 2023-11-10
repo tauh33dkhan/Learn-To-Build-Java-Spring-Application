@@ -661,7 +661,9 @@ public class logoutController {
 ```
 ### STEP 7: Build the application and test the registration and logout functionality.
 
+![image](https://github.com/tauh33dkhan/Learn-To-Build-Java-Spring-Application/assets/43419559/bdd24c39-ab97-40e1-9b9c-3f3283697fd4)
+![Uploading image.png…]()
+
 
 What's NEXT? I will start implementing vulnerabilities and document vulnerable code..
-![image](https://github.com/tauh33dkhan/Learn-To-Build-Java-Spring-Application/assets/43419559/a779d3b6-4dc0-4661-974e-5d969e0442b4)
 
