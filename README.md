@@ -339,8 +339,6 @@ public class registerController {
 
 ## Store user registration data in database
 
-For this example, I'll use the H2 in-memory database and Spring Data JPA for simplicity. You can replace H2 with a production database like MySQL, PostgreSQL, or others when deploying your application.
-
 ### Step 1: Add Dependencies to `pom.xml`
 
 In your pom.xml, include dependencies for Spring Boot Data JPA and a database driver. For this example, we'll use H2 as the embedded database:
@@ -352,12 +350,11 @@ In your pom.xml, include dependencies for Spring Boot Data JPA and a database dr
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
-    <!-- H2 Database (for demo purposes) -->
     <dependency>
-        <groupId>com.h2database</groupId>
-        <artifactId>h2</artifactId>
+        <groupId>org.mariadb.jdbc</groupId>
+        <artifactId>mariadb-java-client</artifactId>
+        <version>2.7.4</version> <!-- Use the latest version available -->
     </dependency>
-    <!-- Other dependencies -->
 </dependencies>
 ```
 
@@ -367,13 +364,11 @@ In your `application.properties` file, configure your database properties. Below
 
 ```bash
 # DataSource settings
-spring.datasource.url=jdbc:h2:mem:helloworlddb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=helloworlddb
-spring.datasource.password=helloworlddb
-
-# H2 Console
-spring.h2.console.enabled=true
+spring.datasource.url=jdbc:mariadb://localhost:3306/helloworlddb
+spring.datasource.username=user
+spring.datasource.password=password
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
 ```
 
 ### STEP 3:  Create an Entity Class
@@ -437,9 +432,13 @@ Create a repository interface by extending JpaRepository. This interface provide
 ```java
 package com.learn.helloworld;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import javax.persistence.LockModeType;
 
-public interface UserRepository extends JpaRepository<User, Long>{ // interface for User entitiy
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
+
+public interface UserRepository extends JpaRepository<User, Long>{
+    User findByUsername(String username); // interface for User entitiy
     // Additional custom queries can be added here if needed
 }
 ```
@@ -490,3 +489,73 @@ public class registerController {
     }
 }
 ```
+
+### STEP 6: Update `dashboardController` and `dashboard.html` and also add logout controller to invalidate user session.
+
+```java
+// dashboardController.java
+package com.learn.helloworld;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class dashboardController {
+    @Autowired
+    private UserRepository userRepository;
+    
+    @GetMapping("/dashboard")
+    public String dashboard(HttpSession session, Model model) {
+        String username = (String) session.getAttribute("username");
+        // Check if a username is stored in the session
+        if (username == null) {
+            return "redirect:/register";
+        }
+        // Get user details from database
+        User user = userRepository.findByUsername(username);       
+        if (user == null) {
+            return "redirect:/register";
+        }
+        System.out.println("ADAD"+ user.getUsername());
+        model.addAttribute("user", user);
+        System.out.println(user);
+        return "dashboard";
+    }
+}
+```
+
+```java
+// dashboard.html
+<html>
+    <center>
+        <h1 th:text="'Hello, ' + ${user.getUsername()} + '!'"></h1>
+        <form action="/logout" method="GET">
+            <input type="submit" value="Logout">
+        </form>
+    </center>
+</html>
+```
+
+```
+// logoutController.java
+package com.learn.helloworld;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class logoutController {
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/login";
+    }
+}
+```
+
