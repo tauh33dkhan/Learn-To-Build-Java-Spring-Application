@@ -537,6 +537,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 ### STEP 5: Modify the Registration Controller
 
 Modify your registration controller to use the repository to save user data to the database:
+
 ```java
 // registerController
 package com.learn.helloworld;
@@ -631,7 +632,7 @@ public class dashboardController {
 </html>
 ```
 
-```
+```java
 // logoutController.java
 package com.learn.helloworld;
 
