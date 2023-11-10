@@ -7,9 +7,28 @@ Spring Boot is like a special tool that makes it much easier to create web appli
 
 ### 📁 Spring Initializr:
 It's a web-based tool that helps you generate a Spring Boot project with the desired dependencies and configurations https://start.spring.io/.
+![image](https://github.com/tauh33dkhan/LearnToBuildJavaSpringApplication/assets/43419559/d891ab4d-c9a8-412b-97a6-45c31768abb1)
 
 ### @ Annotations:
-annotations are used to simplify configuration and reduce the need for XML configuration files. Annotations are used to define beans, configure components, and specify request mappings, among other things.
+Annotations are used to simplify configuration and reduce the need for XML configuration files. Annotations are used to define beans, configure components, and specify request mappings, among other things. Here's an example
+
+```java
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestControllerr
+public class MyController {
+
+    @GetMapping("/example")
+    public String getExample() {
+        return "This is a GET endpoint example!";
+    }
+}
+```
+In this example:
+
+`@Controller`: This annotation is used to indicate that the class is a Spring MVC controller. It plays a role similar to the XML configuration <mvc:annotation-driven>.
+`@GetMapping("/example")`: This annotation maps HTTP GET requests to the specified URI ("/example"). 
 
 ### 🛢👀🕹️ MVC (Model-View-Controller):
 Modern application follows the MVC architectural pattern, which separates an application into three components: Model (data), View (presentation), and Controller (request handling).
@@ -17,12 +36,71 @@ Modern application follows the MVC architectural pattern, which separates an app
 ### 🎮 Controller:
 A controller is a Java class that handles incoming HTTP requests and returns an HTTP response. In the following example the @RestController annotation indicates that the class is a REST controller, and the @GetMapping annotation specifies the mapping of the method to a URL path.
 
+```java
+@RestController
+public class logoutController {
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/login";
+    }
+}
+```
+
 ### Entity Class:
-An entity class is a Java class that corresponds to a database table. It is annotated with @Entity and defines fields that map to columns in a particular table. An entity class is used in Java Persistence API (JPA) to represent and interact with database tables, and it typically represents a specific type of data within your application.
+An entity class is a Java class that corresponds to a database table. It is annotated with @Entity and defines fields that map to columns in a particular table. An entity class is used in Java Persistence API (JPA) to represent and interact with database tables, and it typically represents a specific type of data within your application. Let's create an example of a User entity class. This class will represent users in a application and will include fields such as id, username, email, and password.
+
+```java
+package com.learn.helloworld;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String username;
+    private String email;
+    private String password;
+
+    // Getters
+    public Long getId() {
+        return id;
+    }
+    
+    public String getUsername() {
+        return username;
+    }
+    ...
+    // Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    ...
+}
+```
 
 ### JPARepository:
 
 JpaRepository is an interface provided by Spring Data JPA, that simplifies database access in Spring applications by offering a set of standard CRUD (Create, Read, Update, Delete) operations for working with JPA (Java Persistence API) entities.
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    // You can add custom query methods here if needed
+    User findByUsername(String username);
+    // Additional query methods based on your requirements
+}
+```
 
 Here are some key features and benefits of using JpaRepository:
 **Standard CRUD Operations:** JpaRepository provides methods like save, findAll, findById, delete, and more, which allow you to perform common database operations without writing SQL queries. These methods are type-safe and automatically generate SQL queries based on method names.
