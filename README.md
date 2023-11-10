@@ -27,7 +27,7 @@ public class MyController {
 ```
 In this example:
 
-`@Controller`: This annotation is used to indicate that the class is a Spring MVC controller. It plays a role similar to the XML configuration <mvc:annotation-driven>.
+`@RestController`: This annotation is used to indicate that the class is a Spring MVC controller. It plays a role similar to the XML configuration <mvc:annotation-driven>.
 `@GetMapping("/example")`: This annotation maps HTTP GET requests to the specified URI ("/example"). 
 
 ### 🛢👀🕹️ MVC (Model-View-Controller):
@@ -105,6 +105,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 ```
 
 Here are some key features and benefits of using JpaRepository:
+
 **Standard CRUD Operations:** JpaRepository provides methods like save, findAll, findById, delete, and more, which allow you to perform common database operations without writing SQL queries. These methods are type-safe and automatically generate SQL queries based on method names.
 
 **Custom Query Support:** In addition to standard CRUD methods, you can define custom query methods in your repository interfaces, allowing you to perform more complex database operations. You can annotate these methods with @Query to define JPQL (Java Persistence Query Language) queries or native SQL queries if needed.
@@ -184,6 +185,7 @@ public class helloWorldController {
 Now we need to add code to use this class as a controller and display message `hello world` when someone visit our website. to do this we will add @RestController annonation before our class defination and use @GetMapping annoation to handle request coming for specific path.
 
 ```java
+// helloWorldController.java
 package com.learn.helloworld;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -199,21 +201,22 @@ public class helloWorldController {
 }
 ```
 
-**Step 4:** Start server
+**Step 4:** Start server and make request to `/helloworld` endpoint to check our helloworld application is working.
 
 ```bash
 $ mvn spring-boot:run
 $ curl localhost:8080/helloWorld
-hello test  
+hello world  
 ```
 
 <hr>
 
 ## Handling Request Parameter
 
-To handle request parameters coming from the user we can use the @RequestParam annotation. This annotation allows you to extract values from the request's query parameters and use them in your controller method. Here's how you can modify your helloWorldController to handle request parameters:
+To handle request parameters coming from the user we can use the `@RequestParam` annotation. This annotation allows you to extract values from the request's query parameters and use them in your controller method. Here's how you can modify your helloWorldController to handle request parameters:
 
 ```java
+// helloWorldController.java
 package com.learn.helloworld;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -227,7 +230,7 @@ public class helloWorldController {
     public String sayHello() {
         return "hello test";
     }
-    // Added mapping for sayMyName GET endpoint which takes user input from name parameter
+    // Added mapping for sayMyName GET endpoint which takes user input from the URL parameters
     @GetMapping("/sayMyName")
     public String sayMyName(
         @RequestParam(name = "firstName", defaultValue = "Guest") String fName,
@@ -242,7 +245,9 @@ Let's break down the code:
 @RequestParam(name = "firstName", defaultValue = "Guest") String fName
 ```
 
-Using @RequestParam annonation to handle parameter coming from user. here, `firstName` is the GET parameter coming from user and its default value is set to Guest then we assign its value to String variable fName, similarly we handle the lastName parameter coming from user and assign it to string variable lName.
+In the above code we are using `@RequestParam` annonation to handle parameter coming from user. here, `firstName` is the GET parameter coming from user and its default value is set to Guest then we assign its value to String variable fName, similarly we handle the lastName parameter coming from the user and assign it to string variable lName.
+
+Let's test it
 
 ```bash
 $ mvn spring-boot:run
@@ -253,6 +258,7 @@ Hello, test test!
 We can also access request parameters by using the `@RequestParam Map<String, String>` params approach. This approach allows you to collect all request parameters into a Map. Here's an example:
 
 ```java
+// helloWorldController.java
 package com.learn.helloworld;
 
 import java.util.Map;
@@ -286,10 +292,10 @@ First, make sure you have Thymeleaf as a dependency in your project. You can add
     <artifactId>spring-boot-starter-thymeleaf</artifactId>
 </dependency>
 ```
-Create an HTML template (e.g., hello.html) in your src/main/resources/templates directory. This template will be used to render the response:
+Create an HTML template (e.g., hello.html) in your `src/main/resources/templates directory`. This template will be used to render the response:
 
 ```html
-
+// hello.html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -304,7 +310,7 @@ Create an HTML template (e.g., hello.html) in your src/main/resources/templates 
 Modify your controller to return the HTML template:
 
 ```java
-
+// helloWorldController.java
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -322,13 +328,13 @@ public class HelloWorldController {
 In this modified code:
 
 - We've changed the `@RestController` annotation to `@Controller` to indicate that this class is responsible for returning views.
-- We've added the Model parameter to the sayHello method to pass data to the view. We use model.addAttribute to pass the userName variable to the template.
+- We've added the Model parameter to the `sayHello` method to pass data to the view. We use `model.addAttribute` to pass the `userName` variable to the template.
 
-Now, when you access `/helloWorld?name=John`, the controller will use the hello.html template to display "Hello, John!" in an HTML page. If no "name" parameter is provided, it will default to "Hello, Guest!" in the HTML page. Thymeleaf's `th:text` attribute is used to populate the `<h1>` tag with the dynamic content.
+Now, when you access `/helloWorld?name=John`, the controller will use the `hello.html` template to display "Hello, John!" in an HTML page. If no "name" parameter is provided, it will default to "Hello, Guest!" in the HTML page. Thymeleaf's `th:text` attribute is used to populate the `<h1>` tag with the dynamic content.
 
 ### Secure code review:
 
-Thymeleaf `th:text` expression autoescapes the user supplied to protect against XSS attacks but if the application is using `th:utext` it will display the unescaped user supplied input, including any HTML or special characters.
+Thymeleaf `th:text` expression autoescapes the user supplied input to protect against XSS attacks but if the application is using `th:utext` it will display the unescaped user supplied input, including any HTML or special characters.
 
 <hr>
 
@@ -336,10 +342,10 @@ Thymeleaf `th:text` expression autoescapes the user supplied to protect against 
 
 Creating a registration functionality in a Spring web application typically involves several steps, including creating the registration form, processing user input, and storing user data. Here, I'll provide a simplified example to get started.
 
-**STEP 1:** Create a controller `registerControler.java` to handle request to GET `/register` endpoint.
+**STEP 1:** Create a controller `registerControler.java` in `src/main/java/com/learn/helloworld` path to handle request to GET `/register` endpoint.
 
 ```java
-// registerController
+// registerController.java
 package com.learn.helloworld;
 
 import org.springframework.stereotype.Controller;
@@ -355,9 +361,10 @@ public class registerController {
 }
 ```
 
-**STEP 2:** Create `register.html` template
+**STEP 2:** Create `register.html` template in `src/main/resources/templates` path
 
 ```html
+// register.html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -378,9 +385,10 @@ public class registerController {
 </html>
 ```
 
-**STEP 3:** Handle registration post request using @PostMapping annonation and store the username in session for demo then redirect the user to `/dashboard` using `return "redirect:/dashboard";` then handle dashboard request, first get the username value from session and display it using `dashboard.html`.
+**STEP 3:** Handle the registration POST request using the `@PostMapping` annotation. Store the username in the session for the demo, then redirect the user to the `/dashboard` endpoint using return `redirect:/dashboard";`. Handle the dashboard request by first retrieving the username value from the session and displaying it using the `dashboard.html` template.
 
 ```java
+// registerController.java
 package com.learn.helloworld;
 
 import java.util.HashMap;
@@ -432,7 +440,7 @@ public class registerController {
 
 ### Step 1: Add Dependencies to `pom.xml`
 
-In your pom.xml, include dependencies for Spring Boot Data JPA and a database driver. For this example, we'll use H2 as the embedded database:
+In your pom.xml, include dependencies for Spring Boot Data JPA and a database driver. For this example, we'll use mariadb as the embedded database:
 
 ```xml
 <dependencies>
@@ -464,7 +472,7 @@ spring.jpa.hibernate.ddl-auto=update
 
 ### STEP 3:  Create an Entity Class
 
-Create an entity class representing the user registration data. Annotate it with @Entity, and define fields for user data:
+Create an entity class `User` in `src/main/java/com/learn/helloworld/` path representing the user registration data. Annotate it with @Entity, and define fields for user data:
 
 ```java
 package com.learn.helloworld;
@@ -521,6 +529,7 @@ public class User {
 Create a repository interface by extending JpaRepository. This interface provides CRUD (Create, Read, Update, Delete) operations for your `User` entity:
 
 ```java
+// src/main/java/com/learn/helloworld/UserRepository.java
 package com.learn.helloworld;
 
 import javax.persistence.LockModeType;
@@ -539,7 +548,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 Modify your registration controller to use the repository to save user data to the database:
 
 ```java
-// registerController
+// registerController.java
 package com.learn.helloworld;
 
 import javax.servlet.http.HttpSession;
@@ -650,4 +659,9 @@ public class logoutController {
     }
 }
 ```
+### STEP 7: Build the application and test the registration and logout functionality.
+
+
+What's NEXT? I will start implementing vulnerabilities and document vulnerable code..
+![image](https://github.com/tauh33dkhan/Learn-To-Build-Java-Spring-Application/assets/43419559/a779d3b6-4dc0-4661-974e-5d969e0442b4)
 
