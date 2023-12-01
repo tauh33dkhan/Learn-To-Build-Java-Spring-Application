@@ -676,4 +676,4 @@ public class logoutController {
 ![image](https://github.com/tauh33dkhan/Learn-To-Build-Java-Spring-Application/assets/43419559/d81104c5-3546-4696-807b-bd00372f5c76)
 
 
-What's NEXT? I will start implementing vulnerabilities and document vulnerable code..
+What's next? can you detect race condition in the app?
